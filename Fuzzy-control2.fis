@@ -1,0 +1,61 @@
+[System]
+Name='Fuzzy-control2'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=1
+NumRules=9
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='MACD'
+Range=[-10 10]
+NumMFs=2
+MF1='BAJO':'gauss2mf',[2.72 -11.1 0.593398661253198 -0.673469387755103]
+MF2='ALTO':'gauss2mf',[0.510839526909772 0.551020408163263 0.937 10.7]
+
+[Input2]
+Name='RSI'
+Range=[0 1]
+NumMFs=3
+MF1='BAJO':'trapmf',[-0.36 -0.04 0.0296 0.198979591836735]
+MF2='MEDIO':'trapmf',[0.086734693877551 0.3 0.67 0.958]
+MF3='ALTO':'trapmf',[0.790816326530612 0.966755102040816 0.987755102040816 1.32775510204082]
+
+[Input3]
+Name='SO'
+Range=[0 1]
+NumMFs=3
+MF1='BAJO':'trimf',[-0.4 0 0.132]
+MF2='MEDIO':'trimf',[0.0051 0.5 1.0030612244898]
+MF3='ALTO':'trimf',[0.860204081632653 1.01 1.33]
+
+[Input4]
+Name='ADX'
+Range=[0 1]
+NumMFs=2
+MF1='BAJO':'sigmf',[-27.8 0.3527]
+MF2='ALTO':'sigmf',[20.4 0.4832]
+
+[Output1]
+Name='output1'
+Range=[0 30]
+NumMFs=3
+MF1='VENDER':'trimf',[0 5 10]
+MF2='MANTENER':'trimf',[10 15 20]
+MF3='COMPRAR':'trimf',[20 25 30]
+
+[Rules]
+2 0 0 1, 3 (1) : 1
+1 0 0 1, 1 (1) : 1
+0 0 0 2, 2 (1) : 1
+0 3 0 1, 1 (0.05) : 1
+0 0 3 1, 1 (0.05) : 1
+0 1 0 1, 3 (0.05) : 1
+0 0 1 1, 3 (0.05) : 1
+0 1 1 0, 3 (1) : 1
+0 3 3 0, 1 (1) : 1
